@@ -7,7 +7,9 @@ Besides, high voltage deactivate the LCD while low voltages activates it.
 
 # Default
 - 4x7segments display which correpond to 28 bits output
-- 10.000 decimals representation (0 to 9999)
+- 14 bits addres: 0 up to 16.383 decimal addres
+- 10.000 decimals representation (0 to 9.999)
+- For 16.383 >= values > 9.999, the letter F is displayed at each LCD
 
 # Comment
 For higher numbers, more LCD's are required which can be easily changed in the code
