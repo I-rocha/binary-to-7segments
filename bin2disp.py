@@ -29,17 +29,42 @@ def dec2display(dec):
         }
     
     if dec > 9:
-        print("ERR: Valor decimal maior do que o esperado")
+        #print("ERR: Valor decimal maior do que o esperado")
         return "0111000"
     
     return converter.get(str(dec), "0111000")
+
+def mult_dec2display(val, qtd_num):
+    if val > qtd_num-1:
+        u_disp = dec2display(10)
+        d_disp = dec2display(10)
+        h_disp = dec2display(10)
+        t_disp = dec2display(10)
+        displays =  t_disp + h_disp + d_disp + u_disp
+        return displays
     
+    # 4 Less significatn digit
+    unit = get_digit(1, val)
+    decimal = get_digit(2, val)
+    hundred = get_digit(3, val)
+    thousand = get_digit(4, val)
+
+    # 7 segments display
+    u_disp = dec2display(unit)
+    d_disp = dec2display(decimal)
+    h_disp = dec2display(hundred)
+    t_disp = dec2display(thousand)
+    
+    # 4 x 7segments display
+    displays =  t_disp + h_disp + d_disp + u_disp
+
+    return displays
 
 if __name__ == '__main__':
     ts = time.process_time()
     fname = 'bin2display.txt'
     bits = 14
-    max_addr = 2**bits
+    max_addr = 2**bits-1
     qtd_num = 10000
 
     print('--Parameters--\n'
@@ -49,24 +74,11 @@ if __name__ == '__main__':
           'Max display num: {3}'
           .format(fname, bits, max_addr, qtd_num-1))
 
-    
     fd = open(fname, 'w')
      
-    for val in range (qtd_num):
-        # 4 Less significatn digit
-        unit = get_digit(1, val)
-        decimal = get_digit(2, val)
-        hundred = get_digit(3, val)
-        thousand = get_digit(4, val)
-
-        # 7 segments display
-        u_disp = dec2display(unit)
-        d_disp = dec2display(decimal)
-        h_disp = dec2display(hundred)
-        t_disp = dec2display(thousand)
-        
-        # 4 x 7segments display
-        displays =  t_disp + h_disp + d_disp + u_disp
+    for val in range (max_addr+1):
+        # displays
+        displays = mult_dec2display(val, qtd_num)
         
         # write file
         fd.write('{0}'.format(displays))
